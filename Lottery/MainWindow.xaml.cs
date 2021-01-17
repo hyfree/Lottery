@@ -309,7 +309,7 @@ namespace Lottery
             SetPeopleName(tempPeopleName, false);
 
             string log = $"恭喜{tempPeopleName}获得{prizeName}";
-            File.AppendAllText("log.txt",log);
+            File.AppendAllText("log.txt",log+"\r\n");
             this.logTextBox.AppendText($"{log}\r\n");
             Console.WriteLine(log);
             MessageBox.Show(log);
