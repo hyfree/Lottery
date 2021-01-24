@@ -6,8 +6,8 @@
     xmlns:local="clr-namespace:Lottery"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="基于安全随机数的抽奖软件☆国家专利☆ V1.0"
-    Width="800"
-    Height="450"
+    Width="1200"
+    Height="800"
     mc:Ignorable="d">
     <TabControl>
         <TabItem Header="抽奖界面">
@@ -21,15 +21,36 @@
                     Margin="94,0,94,-0.2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-                    <TextBlock x:Name="PeopleNameTextBlock" FontSize="200" />
+                    <TextBlock
+                        x:Name="PeopleNameTextBlock"
+                        Height="400"
+                        VerticalAlignment="Center"
+                        FontSize="100"
+                        Text="抽奖软件"
+                        TextWrapping="Wrap" />
 
                     <StackPanel Margin="0,50,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="选择奖项" />
+                        <Label Width="100" Content="选择奖项" />
                         <ComboBox x:Name="SelectPrizeComboBox" MinWidth="200" SelectedIndex="2">
+                            <ComboBoxItem x:Name="P0" Content="特等奖" />
                             <ComboBoxItem x:Name="P1" Content="一等奖" />
                             <ComboBoxItem x:Name="P2" Content="二等奖" />
                             <ComboBoxItem x:Name="P3" Content="三等奖" />
+                            <ComboBoxItem x:Name="P4" Content="阳光奖" />
                         </ComboBox>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Label Width="100" Content="抽取人数" />
+                        <TextBox
+                            x:Name="SelectSizeTextBox"
+                            Width="200"
+                            VerticalContentAlignment="Center"
+                            Text="1"
+                            TextAlignment="Center" />
                     </StackPanel>
                     <StackPanel Margin="0,20,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button
@@ -46,6 +67,20 @@
         </TabItem>
         <TabItem Header="抽奖设置">
             <StackPanel HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="特等奖名称" />
+                    <TextBox
+                        x:Name="SpecialPrizeNameTextBox"
+                        MinWidth="100"
+                        VerticalContentAlignment="Center"
+                        Text="特等奖" />
+                    <Label Content="特等奖数量" />
+                    <TextBox
+                        x:Name="SpecialPrizeSizeTextBox"
+                        MinWidth="100"
+                        VerticalContentAlignment="Center"
+                        Text="1" />
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="一等奖名称" />
                     <TextBox
@@ -72,7 +107,7 @@
                         x:Name="SecondPrizeSizeTextBox"
                         MinWidth="100"
                         VerticalContentAlignment="Center"
-                        Text="2" />
+                        Text="3" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="三等奖名称" />
@@ -86,7 +121,21 @@
                         x:Name="ThirdPrizeSizeTextBox"
                         MinWidth="100"
                         VerticalContentAlignment="Center"
-                        Text="3" />
+                        Text="8" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="阳光奖名称" />
+                    <TextBox
+                        x:Name="SunPrizeNameTextBox"
+                        MinWidth="100"
+                        VerticalContentAlignment="Center"
+                        Text="阳光奖名称" />
+                    <Label Content="阳光奖数量" />
+                    <TextBox
+                        x:Name="SunPrizeSizeTextBox"
+                        MinWidth="100"
+                        VerticalContentAlignment="Center"
+                        Text="12" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="抽奖参与者名单" />
