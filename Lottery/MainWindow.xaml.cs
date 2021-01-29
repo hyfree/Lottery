@@ -353,15 +353,19 @@ namespace Lottery
             }
 
             //使用RNGCryptoServiceProvider产生一个随机性足够好的随机数
-            RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
-            SecureRandom random = new SecureRandom(rngCsp);
+            //RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+            //SecureRandom random = new SecureRandom(rngCsp);
+
+            //Random simpleRandom = new Random();
+            //simpleRandom.Next(0, 5);
+            Random random = new Random();
             int index = 0;
             StringBuilder stringBuilder=new StringBuilder();
             for (int i = 0; i < selectSize; i++)
             {
                 if (peoples.Count != 1)
                 {
-                    index = random.NextInt(0, peoples.Count - 1);
+                    index = random.Next(0, peoples.Count - 1);
                 }
                 string tempPeopleName = peoples[index];
                 stringBuilder.Append($" {tempPeopleName}  ");
