@@ -233,6 +233,7 @@ namespace Lottery
                         }
                         else
                         {
+                            Stop();
                             break;
                         }
                     }
@@ -342,16 +343,8 @@ namespace Lottery
                   });
         }
 
-        private void DoStopAsync()
+        private void Stop()
         {
-            lock (lockObj)
-            {
-                if (thread != null)
-                {
-                    thread.Abort();
-                }
-            }
-
             //使用RNGCryptoServiceProvider产生一个随机性足够好的随机数
             //RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
             //SecureRandom random = new SecureRandom(rngCsp);
@@ -360,7 +353,7 @@ namespace Lottery
             //simpleRandom.Next(0, 5);
             Random random = new Random();
             int index = 0;
-            StringBuilder stringBuilder=new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < selectSize; i++)
             {
                 if (peoples.Count != 1)
@@ -371,56 +364,79 @@ namespace Lottery
                 stringBuilder.Append($" {tempPeopleName}  ");
                 string log = $"恭喜{tempPeopleName}获得{prizeName}";
                 File.AppendAllText("log.txt", log + "\r\n");
-                this.logTextBox.AppendText($"{log}\r\n");
-                 peoples.RemoveAt(index);
+                AppendLog(log);
+                peoples.RemoveAt(index);
             }
-            if (selectSize==1)
+            if (selectSize == 1)
             {
-                SetPeopleName(stringBuilder.ToString(),false);
+                SetPeopleName(stringBuilder.ToString(), false);
 
             }
             else
             {
-                 SetPeopleName(stringBuilder.ToString(),false);
+                SetPeopleName(stringBuilder.ToString(), false);
             }
             //SetPeopleName(stringBuilder.ToString(),false);
             // SetPeopleName(tempPeopleName, false);
             MessageBox.Show(stringBuilder.ToString());
 
             //扣除奖项
-      
-            switch (prizeNameIndex)
-            {
-                case 0:
-                    specialPrizeSize=specialPrizeSize-selectSize;
-                    this.P0.Content = $"特等奖剩余数量：{specialPrizeSize}";
-                    break;
+            this.Dispatcher.Invoke(()=>{
+                switch (prizeNameIndex)
+                {
+                    case 0:
+                        specialPrizeSize = specialPrizeSize - selectSize;
+                        this.P0.Content = $"特等奖剩余数量：{specialPrizeSize}";
+                        break;
 
-                case 1:
-                    firstPrizeSize=firstPrizeSize-selectSize;
-                    this.P1.Content = $"一等奖剩余数量：{firstPrizeSize}";
-                    break;
+                    case 1:
+                        firstPrizeSize = firstPrizeSize - selectSize;
+                        this.P1.Content = $"一等奖剩余数量：{firstPrizeSize}";
+                        break;
 
-                case 2:
-                    secondPrizeSize=secondPrizeSize-selectSize;
-                    this.P2.Content = $"二等奖剩余数量：{secondPrizeSize}";
-                    break;
+                    case 2:
+                        secondPrizeSize = secondPrizeSize - selectSize;
+                        this.P2.Content = $"二等奖剩余数量：{secondPrizeSize}";
+                        break;
 
-                case 3:
-                    thirdPrizeSize=thirdPrizeSize-selectSize;
-                    this.P3.Content = $"三等奖剩余数量：{thirdPrizeSize}";
-                    break;
+                    case 3:
+                        thirdPrizeSize = thirdPrizeSize - selectSize;
+                        this.P3.Content = $"三等奖剩余数量：{thirdPrizeSize}";
+                        break;
 
-                case 4:
-                    sunPrizeSize=sunPrizeSize-selectSize;
-                    this.P4.Content = $"阳光奖剩余数量：{sunPrizeSize}";
-                    break;
+                    case 4:
+                        sunPrizeSize = sunPrizeSize - selectSize;
+                        this.P4.Content = $"阳光奖剩余数量：{sunPrizeSize}";
+                        break;
+                    default:
+                        break;
+                }
+                ReleaseControl();
+            });
+            
+        }
+        private void AppendLog(string log)
+        {
+            this.logTextBox.Dispatcher.Invoke(()=>{
 
-                default:
-                    break;
-            }
-            //释放控件
-            SelectPrizeComboBox.IsEnabled = true;
+                this.logTextBox.AppendText($"{log}\r\n");
+
+            });
+        }
+        private void ReleaseControl()
+        {
+            SelectPrizeComboBox.Dispatcher.Invoke(()=> {
+
+                //释放控件
+                SelectPrizeComboBox.IsEnabled = true;
+            });
+        }
+
+        private void DoStopAsync()
+        {
+          
+
+        
         }
     }
 }
