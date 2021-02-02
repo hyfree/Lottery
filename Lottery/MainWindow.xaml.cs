@@ -111,8 +111,8 @@ namespace Lottery
                 {
                     return;
                 }
-                DoStart();
                 startFlag = true;
+                DoStart();
                 this.SelectPrizeComboBox.IsEnabled = false;
                 this.StartButton.Content = "停止";
 
@@ -210,7 +210,9 @@ namespace Lottery
         {
             //开始抽奖 开启一个线程循环显示名字
             thread = new Thread(CycleShow);
+            thread.Priority = ThreadPriority.Highest;
             thread.Start();
+
             return true;
         }
 
