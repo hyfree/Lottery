@@ -115,7 +115,6 @@ namespace Lottery
                 DoStart();
                 this.SelectPrizeComboBox.IsEnabled = false;
                 this.StartButton.Content = "停止";
-
             }
         }
 
