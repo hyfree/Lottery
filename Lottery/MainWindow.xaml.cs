@@ -104,6 +104,7 @@ namespace Lottery
             {
                 startFlag = false;
                 this.StartButton.IsEnabled = false;
+                
             }
             else
             {
@@ -212,7 +213,9 @@ namespace Lottery
             thread = new Thread(CycleShow);
             thread.Priority = ThreadPriority.Highest;
             thread.Start();
-           
+
+            firstPlayer.Pause();
+            bgPlayer.Play();
 
             return true;
         }
@@ -388,12 +391,16 @@ namespace Lottery
             //更新界面
             this.Dispatcher.Invoke(()=>{
                 firstPlayer.Pause();
+                bgPlayer.Pause();
                 TextWindow textWindow = new TextWindow();
                 textWindow.People.Text = stringBuilder.ToString();
                 textWindow.Owner = this;
                 textWindow.ShowDialog();
 
                 firstPlayer.Play();
+                bgPlayer.Stop();
+
+
                 SelectPrizeComboBox.IsEnabled = true;
 
                 this.StartButton.Content = "开始";
@@ -454,7 +461,7 @@ namespace Lottery
             firstPlayer = new MediaPlayer();
             bgPlayer = new MediaPlayer();
 
-            bgPlayer.Open(new Uri("通用音乐.wav", UriKind.Relative));
+            bgPlayer.Open(new Uri("抽奖背景.wav", UriKind.Relative));
             bgPlayer.Volume = 0.5;
             bgPlayer.MediaEnded += (senderx, ex) =>
             {//播放结束后 又重新播放
