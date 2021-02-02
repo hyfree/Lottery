@@ -102,9 +102,7 @@ namespace Lottery
             if (startFlag)
             {
                 startFlag = false;
-                DoStopAsync();
-                this.StartButton.Content = "开始";
-                SelectPrizeComboBox.IsEnabled = true;
+                this.StartButton.IsEnabled = false;
             }
             else
             {
@@ -115,9 +113,9 @@ namespace Lottery
                 }
                 DoStart();
                 startFlag = true;
-                SelectPrizeComboBox.IsEnabled = false;
-
+                this.SelectPrizeComboBox.IsEnabled = false;
                 this.StartButton.Content = "停止";
+
             }
         }
 
@@ -229,20 +227,23 @@ namespace Lottery
                     {
                         if (startFlag)
                         {
+                            Thread.Sleep(20);
                             SetPeopleName(item);
                         }
                         else
                         {
-                            Stop();
+                         
                             break;
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     break;
                 }
             }
+            Stop();
         }
 
         private void DoSet(object sender, RoutedEventArgs e)
@@ -351,6 +352,7 @@ namespace Lottery
 
             //Random simpleRandom = new Random();
             //simpleRandom.Next(0, 5);
+             
             Random random = new Random();
             int index = 0;
             StringBuilder stringBuilder = new StringBuilder();
@@ -378,12 +380,24 @@ namespace Lottery
             }
             //SetPeopleName(stringBuilder.ToString(),false);
             // SetPeopleName(tempPeopleName, false);
-            MessageBox.Show(stringBuilder.ToString());
-
-            //扣除奖项
+            
+  
+            //更新界面
             this.Dispatcher.Invoke(()=>{
+                TextWindow textWindow = new TextWindow();
+                textWindow.People.Text = stringBuilder.ToString();
+                textWindow.Owner = this;
+                textWindow.ShowDialog();
+
+                SelectPrizeComboBox.IsEnabled = true;
+
+                this.StartButton.Content = "开始";
+                SelectPrizeComboBox.IsEnabled = true;
+                this.StartButton.IsEnabled = true;
+
                 switch (prizeNameIndex)
                 {
+
                     case 0:
                         specialPrizeSize = specialPrizeSize - selectSize;
                         this.P0.Content = $"特等奖剩余数量：{specialPrizeSize}";
@@ -411,7 +425,8 @@ namespace Lottery
                     default:
                         break;
                 }
-                ReleaseControl();
+               
+          
             });
             
         }
@@ -423,20 +438,12 @@ namespace Lottery
 
             });
         }
-        private void ReleaseControl()
+     
+
+        private void Window_Initialized(object sender, EventArgs e)
         {
-            SelectPrizeComboBox.Dispatcher.Invoke(()=> {
-
-                //释放控件
-                SelectPrizeComboBox.IsEnabled = true;
-            });
-        }
-
-        private void DoStopAsync()
-        {
-          
-
-        
+            string file = File.ReadAllText("抽奖人名单.txt");
+            this.PeoplesTextBox.Text = file;
         }
     }
 }
