@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Lottery
 {
@@ -211,6 +212,7 @@ namespace Lottery
             thread = new Thread(CycleShow);
             thread.Priority = ThreadPriority.Highest;
             thread.Start();
+           
 
             return true;
         }
@@ -385,11 +387,13 @@ namespace Lottery
   
             //更新界面
             this.Dispatcher.Invoke(()=>{
+                firstPlayer.Pause();
                 TextWindow textWindow = new TextWindow();
                 textWindow.People.Text = stringBuilder.ToString();
                 textWindow.Owner = this;
                 textWindow.ShowDialog();
 
+                firstPlayer.Play();
                 SelectPrizeComboBox.IsEnabled = true;
 
                 this.StartButton.Content = "开始";
@@ -439,12 +443,32 @@ namespace Lottery
 
             });
         }
-     
 
+        MediaPlayer firstPlayer = null;
+        MediaPlayer bgPlayer = null;
         private void Window_Initialized(object sender, EventArgs e)
         {
             string file = File.ReadAllText("抽奖人名单.txt");
             this.PeoplesTextBox.Text = file;
+
+            firstPlayer = new MediaPlayer();
+            bgPlayer = new MediaPlayer();
+
+            bgPlayer.Open(new Uri("通用音乐.wav", UriKind.Relative));
+            bgPlayer.Volume = 0.5;
+            bgPlayer.MediaEnded += (senderx, ex) =>
+            {//播放结束后 又重新播放
+                bgPlayer.Position = new TimeSpan(0);
+            };
+
+            firstPlayer.Open(new Uri("通用音乐.wav", UriKind.Relative));
+            firstPlayer.Volume = 0.5;
+            firstPlayer.MediaEnded += (senderx, ex) =>
+            {//播放结束后 又重新播放
+                firstPlayer.Position = new TimeSpan(0);
+            };
+
+            firstPlayer.Play();
         }
     }
 }

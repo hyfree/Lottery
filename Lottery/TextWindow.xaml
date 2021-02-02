@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lottery"
         mc:Ignorable="d"
-        
+        Closed="Window_Closed"
         Title="恭喜" Height="519" Width="1034">
     <Window.Background>
         <ImageBrush ImageSource="/xq.jpg"/>

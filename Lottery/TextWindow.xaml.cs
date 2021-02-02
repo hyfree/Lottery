@@ -19,9 +19,24 @@ namespace Lottery
     /// </summary>
     public partial class TextWindow : Window
     {
+        MediaPlayer player = null;
         public TextWindow()
         {
             InitializeComponent();
+            player = new MediaPlayer();
+            player.Volume = 1;
+            player.Open(new Uri("颁奖.wav", UriKind.Relative));
+            player.MediaEnded += (senderx, ex) =>
+            {//播放结束后 又重新播放
+                player.Position = new TimeSpan(0);
+            };
+            player.Play();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            player.Stop();
+
         }
     }
 }
