@@ -7,11 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="基于安全随机数的抽奖软件V1.0"
     Width="1200"
+    
     Height="800"
     mc:Ignorable="d">
-    <TabControl>
-        <TabItem Header="抽奖界面">
-            <Grid>
+    <Window.Background>
+        <ImageBrush ImageSource="bg.jpg"/>
+    </Window.Background>
+    <TabControl Background="Transparent">
+        <TabItem Header="抽奖界面" Background="Transparent">
+            <Grid Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="97*" />
                     <ColumnDefinition Width="691*" />
@@ -24,6 +28,8 @@
                     <TextBlock
                         x:Name="PeopleNameTextBlock"
                        MinHeight="400"
+                        FontFamily="微软雅黑"
+                        Foreground="#FF8400"
                         VerticalAlignment="Center"
                         FontSize="100"
                         Text="抽奖软件"
